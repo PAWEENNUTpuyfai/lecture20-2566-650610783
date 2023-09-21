@@ -11,6 +11,7 @@ import {
   Title,
 } from "@mantine/core";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function Home() {
@@ -23,6 +24,7 @@ export default function Home() {
   const [loadingLogin, setLoadingLogin] = useState(false);
 
   //declare useRouter
+  const router = useRouter();
 
   const loadCourses = async () => {
     setLoadingCourses(true);
@@ -43,8 +45,12 @@ export default function Home() {
       localStorage.setItem("authenUsername", resp.data.username);
 
       //save token and authenUsername to global store
-
+      $authenStore.set({
+        token: resp.data.token,
+        authenUsername: resp.data.username,
+      });
       //navigate to /student
+      router.push("/student");
     } catch (error) {
       if (error.response) {
         alert(error.response.data.message);
@@ -58,6 +64,7 @@ export default function Home() {
       {/* all courses section */}
       <Paper withBorder p="md">
         <Title order={4}>All courses</Title>
+        <Title order={4}>Hello Puyfai</Title>
         {loadingCourses && !courses && <Loader variant="dots" />}
         {courses &&
           courses.map((course) => (
@@ -69,7 +76,7 @@ export default function Home() {
 
       {/* log in section */}
       <Paper withBorder p="md">
-        <Title order={4}>Login</Title>
+        <Title order={4}>Logpuy</Title>
         <form
           onSubmit={(e) => {
             e.preventDefault();
